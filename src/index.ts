@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import responseTime from "response-time";
 import * as zod from "zod";
 import "dotenv/config"
 
@@ -14,11 +15,14 @@ const app = express();
 
 app.use(express.json());
 
+app.use(responseTime());
+
 app.use((request, response, next) => {
 
     console.log(`${request.method} | ${request.path}`);
 
-    response.setHeader("X-Current-Date", new Date().toISOString());
+    //Posso usar response.setHearder para setar headers
+    //response.setHeader(nome_do_header, conteúdo_do_header)
 
     next();
 
