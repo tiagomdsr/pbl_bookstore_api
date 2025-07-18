@@ -4,4 +4,11 @@ class BusinessError extends Error {
     }
 }
 
-export { BusinessError };
+class AuthenticationError extends Error {
+    constructor(message: string = "Unauthorized") {
+        super(message);
+    }
+}
+
+
+export { BusinessError, AuthenticationError };

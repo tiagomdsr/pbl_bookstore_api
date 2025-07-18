@@ -1,4 +1,5 @@
 import * as zod from "zod";
+import bcryptjs from "bcryptjs";
 
 import { BusinessError } from "../errors";
 import { PrismaClient, User } from "../generated/prisma";
@@ -24,9 +25,16 @@ class UserService {
             throw new BusinessError("Usuário já existente");
         }
 
+        userToCreate.password = bcryptjs.hashSync(
+            userToCreate.password,
+            bcryptjs.genSaltSync()
+        );
+
         const createdUser = await prisma.user.create({
             data: userToCreate
         });
+
+        createdUser.password = "";
 
         return createdUser;
     }

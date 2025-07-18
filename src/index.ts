@@ -7,7 +7,8 @@ import userRouter from "./routes/user-routes";
 import categoryRouter from "./routes/category-routes";
 import publisherRouter from "./routes/publisher-routes";
 import healthRoutes from "./routes/health-routes";
-import { BusinessError } from "./errors";
+import { AuthenticationError, BusinessError } from "./errors";
+import SessionRouter from "./routes/session-routes";
 
 const port = process.env.PORT || 3333;
 
@@ -29,6 +30,7 @@ app.use((request, response, next) => {
 });
 
 app.use(userRouter);
+app.use(SessionRouter);
 app.use(categoryRouter);
 app.use(publisherRouter);
 app.use(healthRoutes);
@@ -36,6 +38,14 @@ app.use(healthRoutes);
 app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
     if (error instanceof BusinessError) {
         response.status(400).json({
+            error: error.message
+        });
+
+        return;
+    }
+
+    if (error instanceof AuthenticationError) {
+        response.status(401).json({
             error: error.message
         });
 
