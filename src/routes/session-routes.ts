@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import SessionCrontroller from "../controllers/session-controller";
+import SessionController from "../controllers/session-controller";
 
-const SessionRouter = Router();
+const sessionRouter = Router();
 
-SessionRouter.post("/api/session", SessionCrontroller.createSession);
+sessionRouter.post("/api/session", SessionController.createSession);
 
-export default SessionRouter;
+export default sessionRouter;

@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { AuthenticationError } from "../errors";
+import { AuthenticationError } from "../errors/errors";
 import { PrismaClient } from "../generated/prisma";
 
 export type CreateSessionParams = {

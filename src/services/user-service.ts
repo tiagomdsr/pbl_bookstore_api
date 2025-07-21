@@ -1,7 +1,7 @@
 import * as zod from "zod";
 import bcryptjs from "bcryptjs";
 
-import { BusinessError } from "../errors";
+import { BusinessError } from "../errors/errors";
 import { PrismaClient, User } from "../generated/prisma";
 
 export const CreateUserSchema = zod.object({

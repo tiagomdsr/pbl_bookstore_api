@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 
 import SessionService from "../services/session-service";
 
-class SessionCrontroller {
+class SessionController {
     static async createSession(request: Request, response: Response) {
-        const SessionToCreate = request.body;
-
-        const createSession = await SessionService.createSession(SessionToCreate);
+        const token = await SessionService.createSession(request.body);
 
         response.status(201).json({
-            data: createSession,
+            data: {
+                token,
+            },
         });
     }
 }
 
-export default SessionCrontroller;
+export default SessionController;

@@ -1,7 +1,7 @@
 import * as zod from "zod";
 import { PrismaClient, Publisher } from "../generated/prisma";
 
-import { BusinessError } from "../errors";
+import { BusinessError } from "../errors/errors";
 
 export const CreatePublisherSchema = zod.object({
     name: zod.string().min(3).max(32),

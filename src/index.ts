@@ -1,14 +1,15 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import responseTime from "response-time";
-import * as zod from "zod";
-import "dotenv/config"
+import "dotenv/config";
 
 import userRouter from "./routes/user-routes";
 import categoryRouter from "./routes/category-routes";
 import publisherRouter from "./routes/publisher-routes";
 import healthRoutes from "./routes/health-routes";
-import { AuthenticationError, BusinessError } from "./errors";
-import SessionRouter from "./routes/session-routes";
+import sessionRouter from "./routes/session-routes";
+import customErrorHandler from "./errors/error-handlers";
+import requestLogger from "./middlewares/request-logger";
+import ensureAuthentication from "./middlewares/ensure_authentication";
 
 const port = process.env.PORT || 3333;
 
@@ -18,54 +19,15 @@ app.use(express.json());
 
 app.use(responseTime());
 
-app.use((request, response, next) => {
-
-    console.log(`${request.method} | ${request.path}`);
-
-    //Posso usar response.setHearder para setar headers
-    //response.setHeader(nome_do_header, conteúdo_do_header)
-
-    next();
-
-});
-
+app.use(requestLogger);
+app.use(healthRoutes);
 app.use(userRouter);
-app.use(SessionRouter);
+app.use(sessionRouter);
+
+app.use(ensureAuthentication);
 app.use(categoryRouter);
 app.use(publisherRouter);
-app.use(healthRoutes);
 
-app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
-    if (error instanceof BusinessError) {
-        response.status(400).json({
-            error: error.message
-        });
-
-        return;
-    }
-
-    if (error instanceof AuthenticationError) {
-        response.status(401).json({
-            error: error.message
-        });
-
-        return;
-    }
-
-    if (error instanceof zod.ZodError) {
-        response.status(400).json({
-            error: "VALIDATION_ERROR",
-            data: error.issues
-        });
-
-        return;
-    }
-
-    response.status(500).json({
-        data: "Internal server error",
-    });
-
-    console.error(error);
-});
+app.use(customErrorHandler);
 
 app.listen(port, () => console.log(`server is listening at 0.0.0.0:${port}`));

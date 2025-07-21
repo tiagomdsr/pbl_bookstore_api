@@ -2,7 +2,7 @@ import * as zod from "zod";
 
 import { PrismaClient, Category  } from "../generated/prisma";
 
-import { BusinessError } from "../errors";
+import { BusinessError } from "../errors/errors";
 
 export const CreateCategorySchema = zod.object({
     name: zod.string().min(3).max(24)

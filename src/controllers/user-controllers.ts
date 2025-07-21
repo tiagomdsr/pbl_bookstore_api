@@ -7,7 +7,7 @@ import UserService, { CreateUserSchema } from "../services/user-service";
 //     return;
 // }
 
-class UserCrontroller {
+class UserController {
     static async createUser(request: Request, response: Response) {
         const userToCreate = CreateUserSchema.parse(request.body);
 
@@ -19,4 +19,4 @@ class UserCrontroller {
     }
 }
 
-export default UserCrontroller;
+export default UserController;

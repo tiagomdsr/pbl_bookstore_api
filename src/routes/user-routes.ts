@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import UserCrontroller from "../controllers/user-controllers";
+import UserController from "../controllers/user-controllers";
 
 const userRouter = Router();
 
-userRouter.post("/api/user", UserCrontroller.createUser);
+userRouter.post("/api/user", UserController.createUser);
 
 export default userRouter;
