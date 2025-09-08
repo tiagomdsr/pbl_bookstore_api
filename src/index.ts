@@ -10,6 +10,8 @@ import sessionRouter from "./routes/session-routes";
 import customErrorHandler from "./errors/error-handlers";
 import requestLogger from "./middlewares/request-logger";
 import ensureAuthentication from "./middlewares/ensure_authentication";
+import authorRouter from "./routes/author-routes";
+import bookRouter from "./routes/book-routes";
 
 const port = process.env.PORT || 3333;
 
@@ -27,6 +29,8 @@ app.use(sessionRouter);
 app.use(ensureAuthentication);
 app.use(categoryRouter);
 app.use(publisherRouter);
+app.use(authorRouter);
+app.use(bookRouter);
 
 app.use(customErrorHandler);
 

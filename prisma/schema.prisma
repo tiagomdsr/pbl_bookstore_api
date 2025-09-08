@@ -29,6 +29,8 @@ model Category {
 
   id Int @id @default(autoincrement())
   name String @db.VarChar(24) @unique
+
+  books Book[]
 }
 
 model Publisher {
@@ -38,4 +40,36 @@ model Publisher {
   name String @db.VarChar(32)
   address String @unique
   cellphone String @db.VarChar(16) @unique
+
+  books Book[]
+}
+
+model Author {
+  @@map("authors")
+
+  id String @id @default(uuid())
+  name String @db.VarChar(50)
+  email String @db.VarChar(96) @unique
+  cellphone String @db.VarChar(16) @unique
+  bio String
+
+  books Book[]
+}
+
+model Book {
+  @@map("books")
+
+  id Int @id @default(autoincrement())
+  title String
+  summary String
+  release_year String @db.VarChar(4)
+  pages Int
+  isbn String @db.VarChar(13) @unique
+  id_category Int
+  id_author String
+  id_publisher String
+
+  category Category @relation(fields: [id_category], references: [id])
+  author Author @relation(fields: [id_author], references: [id])
+  publisher Publisher @relation(fields: [id_publisher], references: [id])
 }
